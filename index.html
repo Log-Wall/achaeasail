@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html><meta charset="utf-8">
+ <head><title>Achaea Sailing Map 2.0</title>
+  <link rel='icon' type='image/png' href='./core/resources/icon.png' />
+  <script src='./core/extlib/jquery-3.1.1.js'></script>
+  <script src='./core/extlib/d3.v4.min.js'></script>
+  <script src='./core/extlib/topojson.js'></script>
+  <script src='./core/extlib/jquery.simulate.js'></script>
+  <script src='./core/extlib/jquery.simulate.ext.js'></script>
+  <script src='./core/extlib/jquery.simulate.drag-n-drop.js'></script>
+  <script src='./core/asm.js'></script>
+  <script src='./core/asm.data.js'></script>
+  <style>
+document, body { padding: none; margin: none; background: rgba(14,14,104,0.24); }
+#coords { position: absolute; z-index: 100; top: 0px; right: 0px; width: 140px; height: 32px;
+ color: rgba(145,145,145,1); background: rgba(15,15,15,0.75); border: none; border-left: 2px solid rgba(212,212,2121,1); border-bottom: 2px solid rgba(212,212,2121,1); border-radius: 4px; }
+#text { font-size: 11pt; text-align: center; line-height: 32px; height: 100%; width: 100%; }
+#leader {position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:3px solid rgba(255,122,122,1);border-radius:450%; }
+#tracer-x {left:0px;height:1px;width:100%;z-index:-15;}
+#tracer-y { top:0px;width:1px;height:100%;z-index:-15;}
+.tracer {position:absolute;background:rgba(214,14,14,1);}
+.hidden { display: none; }
+#tooltip {padding: 0.4em; background: rgba(1,1,1,0.4); border: none; border-radius: 5px; color: rgba(200,200,200,1); }
+canvas {
+ background: rgba(20,60,135,0.67);
+ position: absolute;
+ left: 50%;
+ top: 50%;
+ transform: translate(-50%,-50%);
+}
+  </style>
+ </head>
+   <canvas id="map" width=960" height="500"></canvas>
+   <div id="coords">
+   <div id="text"></div> </div>
+   <div id="tracer-x" class="tracer hidden"></div>
+   <div id="tracer-y" class="tracer hidden"></div>
+   <!-- <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+<script>
+
+// options
+opt_maximal     = true                 // scale to window
+opt_tracer      = false                // tracer for logging coordinates/widths & crosshairs
+opt_unitWidth   = 4
+opt_unitHeight  = 7
+opt_hoverRadius = 6
+opt_gridnum     = 12000
+
+opt_test       = false
+opt_testQuant  = 200
+
+// helper functions
+clean = function(n) { var x = Number(n.replace(/[^-\d\.]/g, '')); return x }
+log   = console.log
+// alias functions
+copy  = asm.copy
+
+// helper variables
+var_json  = {}
+var_hovr  = false
+var_hvrg = {}
+
+// grab data
+var_json = copy(asm.data.topoj)
+var_json.transform.scale = [opt_unitWidth, opt_unitHeight]
+
+
+
+$(window).on( 'load', function() {
+
+  zoom = function() { 
+    var context  = canvas.node().getContext('2d'); context.clearRect(0, 0, width, height); 
+    draw(d3.event.transform) }
+
+  var canvas   = d3.select('canvas').call(d3.zoom().scaleExtent([1 / 50, 1500]).on('zoom', zoom))
+  var context  = canvas.node().getContext('2d')
+    if (opt_maximal) {
+    context.canvas.width = window.innerWidth
+    context.canvas.height = window.innerHeight } // only AFTER window has loaded, for accurate positioning
+  var width    = canvas.property('width')
+  var height   = canvas.property('height')
+  var n   = document.getElementById('map').getBoundingClientRect() // !NOTE: #map
+  $('#coords').css('top', n.top).css('right', n.left) 
+
+
+  draw = function(transform) {
+    var path = d3.geoPath().context(context)
+    var r    = transform
+    var_json.transform.scale = [ opt_unitWidth * r.k, opt_unitHeight * r.k ]
+    var_json.transform.translate = r.apply([0,0])
+
+    asm.grid(context, r)
+    asm.drawtype( context, path, var_json, 'reefs', 'rgba( 100, 130, 180, 0.55)' )
+    asm.drawtype( context, path, var_json, 'marsh', 'rgba(  55, 140, 135, 0.88)' )
+    asm.drawtype( context, path, var_json, 'grass', 'rgba(  65, 150,  65, 0.85)' )
+    asm.drawtype( context, path, var_json, 'mount', 'rgba( 100,  70,  35, 0.85)' )
+
+    asm.drawpoint(context, r, [   0,   0]) 
+    asm.drawpoint(context, r, [ -25, -61]) }
+
+  draw(d3.zoomIdentity)
+  $(document).on( 'mousemove', fnc_mousemove)
+  // translate viewport to (0,0)
+  $('#map').simulate("drag-n-drop", {dx: $(window).width() / 2, dy: $(window).height() / 2});
+})
+
+
+fnc_mousemove = function(e) {
+  var s =  'Cursor position: x '+ e.clientX+', '+e.clientY
+  var f = document.getElementById('map').getBoundingClientRect()
+  // var n = document.getElementById('map-inner').getBoundingClientRect()
+  var r = d3.zoomTransform(d3.select('canvas').node())
+  if (opt_tracer) {
+  $('.tracer').removeClass('hidden')
+  $('#tracer-x').css('top',e.clientY)
+  $('#tracer-y').css('left',e.clientX)
+  // This value is static in semantic zoom
+  s = s + ', #map top (orig): ' + f.top
+  // regardless of zoom, this returns the pixels of the highest point on the SVG (the grid for now) from the border
+  //   of the SVG
+  // s = s + ', #map-inner top: ' + n.top
+  // unzoomed, this tells us where zero_zero is in relation to the border
+  s = s + ', (0,0) top: '+r.y
+  // therefore, our untransformed y = e.clientY - f.top - r.y
+  }
+  var y = e.clientY - f.top - r.y;  y = Math.round(y / (opt_unitHeight * r.k)) * -1
+  var x = e.clientX - f.left - r.x; x = Math.round(x / (opt_unitWidth * r.k))
+  $('#text').text(' X : '+x+' | Y : '+y)
+  log(s)
+
+  //remove tooltip if not hovering over hoverable
+  if (var_hovr) {
+   var range = var_hvrg
+   if (e.clientY < range.minY || e.clientY > range.maxY || e.clientX < range.minX || e.clientX > range.maxX) {
+    var_hovr   = false
+    var_hvrg = {}
+    $('#tooltip').remove()
+    $('canvas').css('cursor','default')
+   }
+  }
+
+  // scan for hitting hoverables
+  // for hitboxes in hittables do
+  // calculate zz hitbox
+  var range = {}
+  range.minX = 0
+  range.maxX = 100
+  range.minY = 0
+  range.minY = 100
+  
+  // range for Shala-Khulia being 0,0
+  range.minX = r.x - opt_hoverRadius
+  range.maxX = r.x + opt_hoverRadius
+  range.minY = r.y - opt_hoverRadius
+  range.maxY = r.y + opt_hoverRadius
+
+  var_hvrg = copy(range)
+  if (e.clientY >= range.minY && e.clientY <= range.maxY) {
+   if (e.clientX >= range.minX && e.clientX <= range.maxX) {
+    $('canvas').css('cursor','pointer')
+    var_hovr = true
+    // lookup text
+    $('#tooltip').remove()
+    var d = ''
+    d += '<div id="tooltip" style="position: absolute; left: '+(e.clientX+15)+'px; top: '+(e.clientY-15)+'px;">'
+    d += 'Shala-Khulia'
+    // look up trades
+    // 3 glass for 2 incense
+    d += '<div class="trade" style="white-space:pre-wrap;">  <span style="color:rgba(255,255,255,1);">3</span> <span style="color:rgba(150,180,230,1);">glass</span> for <span style="color:rgba(255,255,255,1);">2</span> <span style="color:rgba(205,45,100,1);">incense</span></div>'
+    d += '</div>'
+    $('body').append(d)
+   }
+  }
+
+  // range for Shala-Khulia being 0,0
+ // mark Polyargos
+ var transform = d3.zoomTransform(d3.select('canvas').node())
+  var coords = [-25,-60]
+  var takeX = coords[0] * opt_unitWidth + r.x / r.k
+  var takeY = coords[1] * opt_unitHeight + r.y / r.k
+  var take  = r.apply([takeX, takeY]) //transform.apply([takeX, takeY])
+// log(r.apply(take))
+// log(transform)
+
+  range.minX = r.y - opt_hoverRadius + takeX
+  range.maxX = r.y + opt_hoverRadius + takeX
+  range.minY = r.y - opt_hoverRadius + takeY
+  range.maxY = r.y + opt_hoverRadius + takeY
+
+  range.minX = takeX - opt_hoverRadius
+  range.maxX = takeX + opt_hoverRadius
+  range.minY = takeY - opt_hoverRadius
+  range.maxY = takeY + opt_hoverRadius
+  var_hvrg = copy(range)
+// log('Range '+range.minX+', '+range.minY)
+  if (e.clientY >= range.minY && e.clientY <= range.maxY) {
+   if (e.clientX >= range.minX && e.clientX <= range.maxX) {
+    $('canvas').css('cursor','pointer')
+    var_hovering = true
+    // lookup text
+    $('#tooltip').remove()
+    var d = ''
+    d += '<div id="tooltip" style="position: absolute; left: '+(e.clientX+15)+'px; top: '+(e.clientY-15)+'px;">'
+    d += 'Polyargos'
+    // look up trades
+    // 3 glass for 2 incense
+    d += '<div class="trade" style="white-space:pre-wrap;">  <span style="color:rgba(255,255,255,1);">3</span> <span style="color:rgba(150,180,230,1);">glass</span> for <span style="color:rgba(255,255,255,1);">2</span> <span style="color:rgba(205,45,100,1);">incense</span></div>'
+    d += '</div>'
+    $('body').append(d)
+   }
+  }
+
+}
+
+
+</script>
