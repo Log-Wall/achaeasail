@@ -2,6 +2,59 @@
 asm = typeof asm !== 'undefined' ? asm : {}
 asm.data = typeof asm.data !== 'undefined' ? asm.data : {}
 
+asm.data.put = function(opt,dataset) { // I'd prefer to split this out, but knowing how shit doesn't work, better to define locally
+ var arcs = opt.arcs || []
+ var type = opt.type || 'Polygon'
+ var objt = opt.objt || 'undefined'
+ var   id = opt.id   || ''
+ 
+ var data = dataset  || asm.data.topoj
+ data.objects[objt] = data.objects[objt] || {}
+ data.objects[objt].type = data.objects[objt].type || 'GeometryCollection'
+ data.objects[objt].geometries = data.objects[objt].geometries || []
+ var t = {}
+ t.type = type
+ t.id   = id
+ t.arcs = t.arcs || []
+ var initialLength = data.arcs.length
+ var n = []
+ for (var i=0;i<arcs.length;i++) {
+  n.push(initialLength+i)
+  data.arcs.push(arcs[i])
+ }
+ t.arcs.push(n)
+ data.objects[objt].geometries.push(t)
+ return dataset
+}
+
+asm.data.tradeColours = {
+ ceramics  : 'rgba( 105,  45, 180,1)',
+ glass     : 'rgba( 150, 180, 230,1)',
+ incense   : 'rgba( 205,  45, 100,1)',
+ porcelain : 'rgba( 205, 245, 240,1)',
+ silk      : 'rgba(  56,  45, 100,1)',
+ tabac     : 'rgba(   1,   1,   1,1)',
+}
+
+asm.data.poi = {
+ ['Shala-Khulia'] : { paletteR: 190, paletteG: 100, paletteB: 55, paletteA: 1,
+  trades: {
+   incense: [
+    { cost: 'glass',      lose: 3,    receive: 2, }, ],
+  },
+ },
+ ['Polyargos']    : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  trades: {
+   ceramics  : [
+    { cost: 'silk',       lose: 3,    receive: 2, }, 
+    { cost: 'porcelain',  lose: 4,    receive: 3, }, ], 
+   tabac     : [
+    { cost: 'silk',       lose: 3,    receive: 2, }, 
+    { cost: 'porcelain',  lose: 4,    receive: 3, }, ], 
+  },
+ },
+}
+
 asm.data.topoj = {
    type: 'Topology',
    transform: { scale: [0,0], translate: [0,0], }, // This will be overwritten later
@@ -40,31 +93,6 @@ asm.data.topoj = {
      geometries: [], },
    },
   }
-
-asm.data.put = function(opt,dataset) { // I'd prefer to split this out, but knowing how shit doesn't work, better to define locally
- var arcs = opt.arcs || []
- var type = opt.type || 'Polygon'
- var objt = opt.objt || 'undefined'
- var   id = opt.id   || ''
- 
- var data = dataset  || asm.data.topoj
- data.objects[objt] = data.objects[objt] || {}
- data.objects[objt].type = data.objects[objt].type || 'GeometryCollection'
- data.objects[objt].geometries = data.objects[objt].geometries || []
- var t = {}
- t.type = type
- t.id   = id
- t.arcs = t.arcs || []
- var initialLength = data.arcs.length
- var n = []
- for (var i=0;i<arcs.length;i++) {
-  n.push(initialLength+i)
-  data.arcs.push(arcs[i])
- }
- t.arcs.push(n)
- data.objects[objt].geometries.push(t)
- return dataset
-}
 
 asm.data.put({id: 'Shala-Khulia', objt: 'reefs', arcs: [
      [[ 1.5,-0.5],[0,2],[1,0],[0,1],[1,0],[0,1],[5,0],
