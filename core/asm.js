@@ -30,6 +30,11 @@ asm.draw = function(context, transform, data) {
   asm.drawpoint(context, r, [ 338,-356])
   asm.drawpoint(context, r, [ 209,-580])
   asm.drawpoint(context, r, [ 293,-646])
+  asm.drawpoint(context, r, [-105,-414])
+  asm.drawpoint(context, r, [  40,-488])
+  asm.drawpoint(context, r, [  63,-433])
+  asm.drawpoint(context, r, [  26,-341])
+  asm.drawpoint(context, r, [-128,-291])
 }
 
 asm.drawpoint = function(context, transform, coordinates) {
@@ -97,6 +102,8 @@ asm.mousehover = function(transform,event,canvasdimension) {
   { coordinates: [ 338,356], id: "Tasur'ke", },
   { coordinates: [ 209,580], id: 'Tenwat', },
   { coordinates: [ 293,646], id: 'Valho', },
+  { coordinates: [-105,414], id: 'Rheodad', },
+  { coordinates: [  40,488], id: 'Phereklos', },
  ]
  var tc = copy(asm.data.tradeColours)
  
