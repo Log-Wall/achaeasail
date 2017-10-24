@@ -44,6 +44,7 @@ asm.data.poi = {
   },
  },
  ['Polyargos']    : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  /*
   trades: {
    ceramics  : [
     { cost: 'silk',       lose: 3,    receive: 2, }, 
@@ -52,8 +53,61 @@ asm.data.poi = {
     { cost: 'silk',       lose: 3,    receive: 2, }, 
     { cost: 'porcelain',  lose: 4,    receive: 3, }, ], 
   },
+  */
+ },
+
+ ['Shastaan']      : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  trades: {
+   cotton    : [
+    { cost: 'sovereigns', lose: 1000, receive: 1, }, ], 
+   gems      : [
+    { cost: 'perfume',    lose: 2,    receive: 1, }, ], 
+   hemp      : [
+    { cost: 'fur',        lose: 4,    receive: 3, }, ], 
+   sandstone : [
+    { cost: 'sovereigns', lose: 1000, receive: 1, }, ], 
+   wine      : [
+    { cost: 'perfume',     lose: 3,   receive: 2, }, ], 
+  },
+ },
+ ["Ta'surke"]      : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  trades: {
+   granite   : [
+    { cost: 'sandstone',  lose: 4,    receive: 3, }, ], 
+   kawhe     : [
+    { cost: 'sugar',      lose: 3,    receive: 2, }, ], 
+   wool      : [
+    { cost: 'sovereigns', lose: 1000, receive: 1, }, ], 
+  },
+ },
+ ['Thraasi']      : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  trades: {
+   armaments : [
+    { cost: 'spices',     lose: 2,    receive: 1, }, ], 
+   glass     : [
+    { cost: 'fruits',     lose: 3,    receive: 2, }, ], 
+   grain     : [
+    { cost: 'sovereigns', lose: 1000, receive: 1, }, ], 
+   ore       : [
+    { cost: 'sovereigns', lose: 1000, receive: 1, }, ], 
+  },
+ },
+ ['Zanzibaar']    : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  trades: {
+   fruits    : [
+    { cost: 'ore',        lose: 4,    receive: 3, }, ], 
+   incense   : [
+    { cost: 'armaments',  lose: 3,    receive: 2, }, ], 
+   perfume   : [
+    { cost: 'gems',       lose: 2,    receive: 1, }, ], 
+   spices    : [
+    { cost: 'armaments',  lose: 2,    receive: 1, }, ], 
+   tea       : [
+    { cost: 'terracotta', lose: 3,    receive: 2, }, ], 
+  },
  },
 }
+
 
 asm.data.topoj = {
    type: 'Topology',

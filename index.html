@@ -11,6 +11,8 @@
   <script src='./core/asm.js'></script>
   <script src='./core/asm.data.js'></script>
   <script src='./core/asm.data.mainland.js'></script>
+  <script src='./core/asm.data.mainland.internal.js'></script>
+  <script src='./core/asm.data.roughs.js'></script>
   <script src='./core/asm.data.zanzibaar.js'></script>
   <style>
 document, body { padding: none; margin: none; background: rgba(14,14,104,0.24); }
@@ -24,7 +26,7 @@ document, body { padding: none; margin: none; background: rgba(14,14,104,0.24); 
 .hidden { display: none; }
 #tooltip {padding: 0.4em; background: rgba(1,1,1,0.4); border: none; border-radius: 5px; color: rgba(200,200,200,0.88); }
 canvas {
- background: rgba(20,60,135,0.67);
+ background: rgba(20,60,135,0.93);
  position: absolute;
  left: 50%;
  top: 50%;
@@ -80,7 +82,7 @@ $(window).on( 'load', function() {
   var n       = document.getElementById('map').getBoundingClientRect() // !NOTE: #map 
 
   draw(context, d3.zoomIdentity, var_json)
-
+  log(var_json)
   $('#coords').css('top', n.top).css('right', n.left)
   $(document).on( 'mousemove', fnc_mousemove)
 
@@ -110,7 +112,7 @@ fnc_mousemove = function(e) {
     s = s + ', (0,0) top: '+r.y }
     
   s = 'Cursor position: x '+ e.clientX+', '+e.clientY + s
-  log(s)
+  // log(s)
   
   // change the spot coordinate into window-pixels
   // change that spot into a range

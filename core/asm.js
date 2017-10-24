@@ -19,22 +19,32 @@ asm.draw = function(context, transform, data) {
   asm.drawtype( context, path, data, 'marsh', 'rgba(  55, 140, 135, 0.88)' )
   asm.drawtype( context, path, data, 'grass', 'rgba(  65, 150,  65, 0.85)' )
   asm.drawtype( context, path, data, 'mount', 'rgba( 100,  70,  35, 0.85)' )
+  asm.drawtype( context, path, data, 'swamp', 'rgba(  10,  60,  30, 0.85)' )
+  asm.drawtype( context, path, data, 'lowmt', 'rgba( 130, 100,  70, 0.65)' )
+  asm.drawtype( context, path, data, 'nnnbb', 'rgba(  85,  55,   1, 0.65)' )
+  asm.drawtype( context, path, data, 'nnnbr', 'rgba( 165, 135, 100, 0.75)' )
+  asm.drawtype( context, path, data, '___br', 'rgba( 200, 180, 145, 0.65)' )
+  asm.drawtype( context, path, data, '...wt', 'rgba( 200, 200, 215, 0.65)' )
+  asm.drawtype( context, path, data, 'hshbl', 'rgba( 165, 185, 215, 0.35)', true )
+
   asm.drawpoint(context, r, [   0,   0]) 
   asm.drawpoint(context, r, [ -25, -61]) 
-  asm.drawpoint(context, r, [ 171, -14]) 
-  asm.drawpoint(context, r, [ 280, -38]) 
-  asm.drawpoint(context, r, [ 358,-139])
-  asm.drawpoint(context, r, [ 360,-180])
-  asm.drawpoint(context, r, [ 370,-234])
+  asm.drawpoint(context, r, [ 173, -14]) 
+  asm.drawpoint(context, r, [ 282, -38]) 
+  asm.drawpoint(context, r, [ 364,-139])
+  asm.drawpoint(context, r, [ 366,-180])
+  asm.drawpoint(context, r, [ 376,-234])
   asm.drawpoint(context, r, [ 435, -59])
-  asm.drawpoint(context, r, [ 338,-356])
-  asm.drawpoint(context, r, [ 209,-580])
-  asm.drawpoint(context, r, [ 293,-646])
-  asm.drawpoint(context, r, [-105,-414])
-  asm.drawpoint(context, r, [  40,-488])
-  asm.drawpoint(context, r, [  63,-433])
-  asm.drawpoint(context, r, [  26,-341])
-  asm.drawpoint(context, r, [-128,-291])
+  asm.drawpoint(context, r, [ 344,-356])
+  asm.drawpoint(context, r, [ 215,-579])
+  asm.drawpoint(context, r, [ 299,-645])
+  asm.drawpoint(context, r, [ -98,-412])
+  asm.drawpoint(context, r, [  46,-486])
+  asm.drawpoint(context, r, [  69,-430])
+  asm.drawpoint(context, r, [  32,-338])
+  asm.drawpoint(context, r, [-123,-288])
+  asm.drawpoint(context, r, [ -15,-204])
+  asm.drawpoint(context, r, [  53, -84])
 }
 
 asm.drawpoint = function(context, transform, coordinates) {
@@ -55,15 +65,20 @@ asm.drawpoint = function(context, transform, coordinates) {
   c.closePath()
 }
 
-asm.drawtype = function(context,path,data,objt,fill) {
+asm.drawtype = function(context,path,data,objt,fill,noborder) {
   var fill = fill || 'rgba(155,155,155,0.75)'
   var c = context
   c.closePath()
   c.beginPath()
   var f = topojson.feature( data, data.objects[objt] ).features
   for (var i=0; i < f.length; i++) { path( f[i].geometry ) }
-  c.lineWidth = 3
-  c.stroke()
+
+  if (noborder) {
+   c.lineWidth = 0
+  } else { 
+   c.lineWidth = 2
+   c.stroke()
+  }
   c.fillStyle = fill
   c.fill()
   c.closePath()
@@ -93,17 +108,19 @@ asm.mousehover = function(transform,event,canvasdimension) {
  var points = [
   { coordinates: [   0,  0], id: 'Shala-Khulia', },
   { coordinates: [ -25, 61], id: 'Polyargos', },
-  { coordinates: [ 171, 14], id: 'Sea Lion Cove', },
-  { coordinates: [ 280, 38], id: 'New Hope', },
-  { coordinates: [ 358,139], id: 'Shastaan', },
-  { coordinates: [ 360,180], id: 'Riparium', },
-  { coordinates: [ 370,234], id: 'Eastern Shore', },
+  { coordinates: [ 173, 14], id: 'Sea Lion Cove', },
+  { coordinates: [ 282, 38], id: 'New Hope', },
+  { coordinates: [ 364,139], id: 'Shastaan', },
+  { coordinates: [ 366,180], id: 'Eastern Shore', },
+  { coordinates: [ 376,234], id: 'Targossas', },
   { coordinates: [ 435, 59], id: 'Zanzibaar', },
-  { coordinates: [ 338,356], id: "Tasur'ke", },
-  { coordinates: [ 209,580], id: 'Tenwat', },
-  { coordinates: [ 293,646], id: 'Valho', },
-  { coordinates: [-105,414], id: 'Rheodad', },
-  { coordinates: [  40,488], id: 'Phereklos', },
+  { coordinates: [ 344,356], id: "Tasur'ke", },
+  { coordinates: [ 215,579], id: 'Tenwat', },
+  { coordinates: [ 299,645], id: 'Valho', },
+  { coordinates: [ -98,412], id: 'Rheodad', },
+  { coordinates: [  46,486], id: 'Phereklos', },
+  { coordinates: [ -15,204], id: 'Thraasi', },
+  { coordinates: [  53, 84], id: 'Aalen', },
  ]
  var tc = copy(asm.data.tradeColours)
  
