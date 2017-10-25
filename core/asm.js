@@ -26,10 +26,12 @@ asm.draw = function(context, transform, data) {
   asm.drawtype( context, path, data, '___br', 'rgba( 200, 180, 145, 0.65)' )
   asm.drawtype( context, path, data, '...wt', 'rgba( 200, 200, 215, 0.65)' )
   asm.drawtype( context, path, data, 'hshbl', 'rgba( 165, 185, 215, 0.35)', true )
-  asm.drawtype( context, path, data, 'WWbwn', 'rgba( 200,  75,  85, 0.55)', true )
-  asm.drawtype( context, path, data, 'YYred', 'rgba( 215,  25,   5, 0.35)', true )
+  asm.drawtype( context, path, data, 'WWbwn', 'rgba(  95,  45,  45, 0.55)', true )
+  asm.drawtype( context, path, data, 'YYred', 'rgba( 215,  25,   5, 0.25)', true )
   asm.drawtype( context, path, data, '__blk', 'rgba(  15,  15,  15, 0.75)', true )
-
+  asm.drawtype( context, path, data, '##bwn', 'rgba( 110,  85,  60, 0.75)', true )
+  asm.drawtype( context, path, data, '..blk', 'rgba( 165,  15,  15, 0.35)', true )
+  
   asm.drawpoint(context, r, [   0,   0]) 
   asm.drawpoint(context, r, [ -25, -61]) 
   asm.drawpoint(context, r, [ 173, -14]) 
@@ -79,7 +81,7 @@ asm.drawtype = function(context,path,data,objt,fill,noborder) {
   if (noborder) {
    c.lineWidth = 0
   } else { 
-   c.lineWidth = 2
+   c.lineWidth = 3
    c.stroke()
   }
   c.fillStyle = fill
@@ -122,6 +124,8 @@ asm.mousehover = function(transform,event,canvasdimension) {
   { coordinates: [ 299,645], id: 'Valho', },
   { coordinates: [ -98,412], id: 'Rheodad', },
   { coordinates: [  46,486], id: 'Phereklos', },
+  { coordinates: [-123,288], id: 'Mhaldor', },
+  { coordinates: [  32,338], id: 'Ashtan', },
   { coordinates: [ -15,204], id: 'Thraasi', },
   { coordinates: [  53, 84], id: 'Aalen', },
  ]
