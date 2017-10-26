@@ -2,6 +2,7 @@
 <html><meta charset="utf-8">
  <head><title>Achaea Sailing Map 2.0</title>
   <link rel='icon' type='image/png' href='./core/resources/icon.png' />
+  <link rel='stylesheet' href='./core/index.css' />
   <script src='./core/extlib/jquery-3.1.1.js'></script>
   <script src='./core/extlib/d3.v4.min.js'></script>
   <script src='./core/extlib/topojson.js'></script>
@@ -14,38 +15,22 @@
   <script src='./core/asm.data.mainland.internal.js'></script>
   <script src='./core/asm.data.roughs.js'></script>
   <script src='./core/asm.data.zanzibaar.js'></script>
-  <style>
-document, body { padding: none; margin: none; background: rgba(14,14,104,0.24); overflow: hidden; }
-#coords {
- position: absolute; z-index: 100; top: 0px; right: 0px; width: 140px; height: 32px; color: rgba(145,145,145,1); background: rgba(15,15,15,0.75); border: none; border-left: 2px solid rgba(212,212,2121,1); border-bottom: 2px solid rgba(212,212,2121,1); border-radius: 4px; }
-#text {
- font-size: 11pt; text-align: center; line-height: 32px; height: 100%; width: 100%; user-select: none; }
-#leader {
- position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:3px solid rgba(255,122,122,1);border-radius:450%; }
-#tracer-x { left:0px;height:1px;width:100%;z-index:-15;}
-#tracer-y { top:0px;width:1px;height:100%;z-index:-15;}
-.tracer { position:absolute;background:rgba(214,14,14,1);}
-.hidden { display: none; }
-#tooltip {
- padding: 0.4em; background: rgba(1,1,1,0.4); border: none; border-radius: 5px; color: rgba(200,200,200,0.88); }
-#settings {
- position: absolute; top: 35px; left: 140px; height: 450px; width: 450px; background: rgba(15,15,15,0.56); border-bottom-left-radius: 4px; border-top-left-radius: 4px; transition: all 430ms; }
-#pin {
- position: absolute; top: 5px; left: 5px; height: 20px; width: 20px; background: rgba(255,255,255,0); background-size: 20px 20px; background-repeat: no-repeat; cursor: pointer; transition: all 80ms; }
-canvas {
- background: rgba(20,60,135,0.93);
- position: absolute;
- left: 50%;
- top: 50%;
- transform: translate(-50%,-50%);
-}
-  </style>
+  <script src='./core/usr.js'></script>
  </head>
    <canvas id="map" width="960" height="500">
    </canvas>
    <div id="coords">
    <div id="text"></div> 
-   <div id="settings"><div id="pin"></div></div>
+    <div id="settings"><div id="pin"></div>
+     <div id="tabs">
+     <span id="-tab-settings"   class="tab">Settings</span>
+     <span id="-tab-display"    class="tab">Display</span>
+     <span id="-tab-calculator" class="tab">Calculator</span>
+     </div>
+     <div  id='-ctn-settings'   class="ctn hidden">A</div>
+     <div  id='-ctn-display'    class="ctn hidden">B</div>
+     <div  id='-ctn-calculator' class="ctn hidden">CS</div>
+    </div>
    </div>
    <div id="tracer-x" class="tracer hidden"></div>
    <div id="tracer-y" class="tracer hidden"></div>
@@ -70,9 +55,11 @@ draw  = asm.draw
 var_hovr  = false
 var_hvrg  = {}
 var_json  = {}
-var_pind  = false        // ui 
 var__cord = [ 344, 356]  // ui, start coordinates
 var__zoom = 0.74         // ui, start zoom
+// further ui variables
+var_pind  = true         // ui 
+var_tabd  = 'settings'   // ui, active tab (settings, display, calculator)
 
 // grab data
 var_json = copy(asm.data.topoj)
@@ -80,7 +67,6 @@ var_json.transform.scale = [opt_unitWidth, opt_unitHeight]
 
 $(window).on( 'load', function() {
   log(var_json)
-
   zoom = function() { 
     var context  = canvas.node().getContext('2d'); context.clearRect(0, 0, canvas.property('width'), canvas.property('height')); 
     draw(context, d3.event.transform, var_json) }
@@ -94,10 +80,12 @@ $(window).on( 'load', function() {
     context.canvas.height = window.innerHeight } // only AFTER window has loaded, for accurate positioning
   var n       = document.getElementById('map').getBoundingClientRect() // !NOTE: #map 
 
-  draw(context, d3.zoomIdentity, var_json)  // !important
-  $('#coords').css('top', n.top).css('right', n.left)
-  $(document).on( 'mousemove', fnc_mousemove)
+  // fnc_storage()
+  usr.prep()  // usage specific, delete if necessary
   fnc_settings()
+  draw(context, d3.zoomIdentity, var_json)    // !important
+  $(document).on( 'mousemove', fnc_mousemove) // !important
+  $('#coords').css('top', n.top).css('right', n.left)
 
   // Final Preparation, Move & Zoom
   //  Simulate & Starting Position
@@ -152,6 +140,7 @@ fnc_settings = function() {
   }).on('mouseleave', function() {
     if (!var_pind) { $('#settings').css('left', clean($('#coords').css('width'))+'px') }
   })
+
   $('#pin').on('mouseenter', function() {
     if (!var_pind) {
       $('#pin').css('background-image', 'url("./core/resources/pin_inactive_hover.png")' )
@@ -168,11 +157,52 @@ fnc_settings = function() {
     if (!var_pind) { 
       var_pind = true
       $('#pin').css('background-image', 'url("./core/resources/pin_active_hover.png")' )
+      if (usr) { usr.save() }
     } else { 
       var_pind = false 
       $('#pin').css('background-image', 'url("./core/resources/pin_inactive_hover.png")' )
+      if (usr) { usr.save() }
     }
   })
+
+  // Handle tab switching
+  if ($('#-tab-'+var_tabd).length) {
+   $('#-tab-'+var_tabd).addClass('active')
+   $('#-ctn-'+var_tabd).removeClass('hidden')
+  }
+  $('.tab').on('click', function(e) {
+   var id = e.target.id
+   $('.tab').each( function(i) { $(this).removeClass('active') } )
+   $('#'+id).addClass('active')
+   var_tabd = id.replace('-tab-','')
+     if (usr) { usr.save() }
+   $('.ctn').each( function(i) { $(this).addClass('hidden') } )
+   $('#-ctn-'+var_tabd).removeClass('hidden')
+   fnc_tabdraw(var_tabd)
+  })
+}
+
+fnc_tabdraw = function(tabtype) {
+  if (tabtype == 'settings'  ) { fnc_tabdraw_settings() }
+  if (tabtype == 'display'   ) { fnc_tabdraw_display()  }
+  if (tabtype == 'calculator') { fnc_tabdraw_calculator() }
+}
+
+fnc_tabdraw_settings = function() {
+  var tab = $('#-ctn-settings')
+  var s   = ''
+  s += 'Home Coordinates'
+  s += 'Pin Settings on Start'
+  s += 'Use Local Storage'
+  tab.append('<div id="">'+s+'</div>')
+}
+
+fnc_tabdraw_display = function() {
+  
+}
+
+fnc_tabdraw_calculator = function() {
+  
 }
 
 </script>

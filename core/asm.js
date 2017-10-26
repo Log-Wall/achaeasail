@@ -9,6 +9,10 @@ asm.hover = asm.hover || false
 
 asm.copy = function(obj) { var c; if (null == obj || 'object' != typeof obj) return obj; if (obj instanceof Date) { c = new Date(); c.setTime(obj.getTime()); return c }; if (obj instanceof Array) { c = []; for (var i=0;i<obj.length;i++) { c[i] = asm.copy(obj[i]) }; return c }; if (obj instanceof Object) { c = {}; for (var attr in obj) { if (obj.hasOwnProperty(attr)) { c[attr] = asm.copy(obj[attr]) } }; return c }; throw new Error('Unable to copy obj! Type not supported.'); }
 
+asm.commaThis = function(x) { var parts = x.toString().split("."); parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ","); return parts.join("."); }
+
+asm.empty = function(obj) { for (var k in obj) { if (obj.hasOwnProperty(k)) { return false } }; return true }
+
 asm.draw = function(context, transform, data) {
   var path = d3.geoPath().context(context)
   var r    = transform
@@ -32,24 +36,13 @@ asm.draw = function(context, transform, data) {
   asm.drawtype( context, path, data, '##bwn', 'rgba( 110,  85,  60, 0.75)', true )
   asm.drawtype( context, path, data, '..blk', 'rgba( 165,  15,  15, 0.35)', true )
   
-  asm.drawpoint(context, r, [   0,   0]) 
-  asm.drawpoint(context, r, [ -25, -61]) 
-  asm.drawpoint(context, r, [ 173, -14]) 
-  asm.drawpoint(context, r, [ 282, -38]) 
-  asm.drawpoint(context, r, [ 364,-139])
-  asm.drawpoint(context, r, [ 366,-180])
-  asm.drawpoint(context, r, [ 376,-234])
-  asm.drawpoint(context, r, [ 435, -59])
-  asm.drawpoint(context, r, [ 344,-356])
-  asm.drawpoint(context, r, [ 215,-579])
-  asm.drawpoint(context, r, [ 299,-645])
-  asm.drawpoint(context, r, [ -98,-412])
-  asm.drawpoint(context, r, [  46,-486])
-  asm.drawpoint(context, r, [  69,-430])
-  asm.drawpoint(context, r, [  32,-338])
-  asm.drawpoint(context, r, [-123,-288])
-  asm.drawpoint(context, r, [ -15,-204])
-  asm.drawpoint(context, r, [  53, -84])
+  var points = []
+  var t = asm.copy(asm.data.poi)
+  for (var k in t) {
+    var c = t[k].coordinates
+    c[1] *= -1
+    if (t[k].type == 'harbour') { asm.drawpoint(context, r, c) }
+  }
 }
 
 asm.drawpoint = function(context, transform, coordinates) {
@@ -110,27 +103,13 @@ asm.mousehover = function(transform,event,canvasdimension) {
  var r  = transform
  var e  = event
  var f  = canvasdimension
- var points = [
-  { coordinates: [   0,  0], id: 'Shala-Khulia', },
-  { coordinates: [ -25, 61], id: 'Polyargos', },
-  { coordinates: [ 173, 14], id: 'Sea Lion Cove', },
-  { coordinates: [ 282, 38], id: 'New Hope', },
-  { coordinates: [ 364,139], id: 'Shastaan', },
-  { coordinates: [ 366,180], id: 'Eastern Shore', },
-  { coordinates: [ 376,234], id: 'Targossas', },
-  { coordinates: [ 435, 59], id: 'Zanzibaar', },
-  { coordinates: [ 344,356], id: "Tasur'ke", },
-  { coordinates: [ 215,579], id: 'Tenwat', },
-  { coordinates: [ 299,645], id: 'Valho', },
-  { coordinates: [ -98,412], id: 'Rheodad', },
-  { coordinates: [  46,486], id: 'Phereklos', },
-  { coordinates: [-123,288], id: 'Mhaldor', },
-  { coordinates: [  32,338], id: 'Ashtan', },
-  { coordinates: [ -15,204], id: 'Thraasi', },
-  { coordinates: [  53, 84], id: 'Aalen', },
- ]
+ var points = []
+ var t = asm.copy(asm.data.poi)
+ for (var k in t) {
+  if (t[k].type == 'harbour') { points.push({ coordinates: t[k].coordinates, id: k}) }
+ }
  var tc = copy(asm.data.tradeColours)
- 
+
  var b = false
  for (var i=0;i<points.length;i++) {
   var t = asm.copy(points[i].coordinates)
@@ -142,13 +121,19 @@ asm.mousehover = function(transform,event,canvasdimension) {
   t[1] += f.top
   var hover = asm.testhover(e,t,rd)  // !important
   
+  var arbitrageW = 220
+  var arbitrageH = 80
   // This is predominantly UI stuff
   if (hover) { 
     // log('Hovering over '+points[i].coordinates[0]+', '+points[i].coordinates[1])
     asm.hover = true
     var d =''
-    d += '<div id="tooltip" style="position:absolute; left: '+(e.clientX + 20)+'px;'
-    d += 'top: '+(e.clientY + 20)+'px; ">'
+    d += '<div id="tooltip" style="position:absolute; '
+    /*
+    d += 'left: '+(e.clientX + 20)+'px; '
+    d += 'top: '+(e.clientY + 20)+'px; '
+    */
+    d += '">'
     d += points[i].id
     // trade data
      
@@ -164,10 +149,10 @@ asm.mousehover = function(transform,event,canvasdimension) {
         var co = tc[o] || 'rgba(202,202,202,1)'
         var ci = tc[k] || 'rgba(190,190,190,1)'
         var qi = txk[j].receive
-        d += '<div class="trade" style="white-space:pre-wrap;">  '
-        d += '<span style="color:rgba(255,255,255,1);">'+qo+' </span>' // 3
-        d += '<span style="color:'+co+';">'+o+' </span>'
-        d += 'for '
+        d += '<div class="trade" style="white-space:pre-wrap; overflow: hidden;">  '
+        d += '<span style=" display: inline-block; width: 112px;"><span style="color:rgba(255,255,255,1); text-align: right;">'+asm.commaThis(qo)+' </span>' // 3
+        d += '<span style="color:'+co+';">'+o+' </span></span>'
+        d += '<span style="color:rgba(125,125,125,1);">for </span>'
         d += '<span style="color:rgba(255,255,255,1);">'+qi+' </span>' // 2
         d += '<span style="color:'+ci+';">'+k+'</span>'
         // 3 glass for 2 incense
@@ -176,7 +161,19 @@ asm.mousehover = function(transform,event,canvasdimension) {
      }
     
     d += '</div>'
+
     $('body').append(d)
+    if (e.clientX + clean($('#tooltip').css('width')) + 20 >= f.width) {
+      $('#tooltip').css('left', (e.clientX - clean($('#tooltip').css('width')) - 20)+'px')
+    } else {
+      $('#tooltip').css('left', (e.clientX + 20)+'px')
+    }
+    if (e.clientY + clean($('#tooltip').css('height')) + 20 >= f.height) {
+      $('#tooltip').css('top', (e.clientY - clean($('#tooltip').css('height')) - 20)+'px')
+    } else {
+      $('#tooltip').css('top', (e.clientY + 20)+'px')
+    }
+    
     $('canvas').css('cursor','pointer')
     
     b = true

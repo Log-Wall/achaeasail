@@ -1,0 +1,71 @@
+
+document, body { padding: none; margin: none; background: rgba(14,14,104,0.24); overflow: hidden; }
+
+#coords {
+ position: absolute; z-index: 100; top: 0px; right: 0px; width: 140px; height: 32px; color: rgba(145,145,145,1); background: rgba(15,15,15,0.75); border: none; border-left: 2px solid rgba(212,212,2121,1); border-bottom: 2px solid rgba(212,212,2121,1); border-radius: 4px; }
+
+#text {
+ font-size: 11pt; text-align: center; line-height: 32px; height: 100%; width: 100%; user-select: none; }
+
+#leader {
+ position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:3px solid rgba(255,122,122,1);border-radius:450%; }
+
+#tracer-x { left:0px;height:1px;width:100%;z-index:-15;}
+
+#tracer-y { top:0px;width:1px;height:100%;z-index:-15;}
+
+.tracer { position:absolute;background:rgba(214,14,14,1);}
+
+.hidden { display: none; }
+
+#tooltip {
+ padding: 0.4em; background: rgba(1,1,1,0.4); border: none; border-radius: 5px; color: rgba(200,200,200,0.88); }
+
+#settings {
+ position: absolute; top: 35px; left: 140px; height: 450px; width: 450px; background: rgba(15,15,15,0.56); border-bottom-left-radius: 4px; border-top-left-radius: 4px; transition: all 430ms; overflow: hidden; }
+
+#pin {
+ position: absolute; top: 12px; left: 12px; height: 20px; width: 20px; background: rgba(255,255,255,0); background-size: 20px 20px; background-repeat: no-repeat; cursor: pointer; transition: all 80ms; }
+
+#tabs {
+ position: absolute; top: 13px; left: 43px; user-select: none; }
+
+.tab {
+ display: inline-block; width: 100px; font-size: 11pt; color: rgba(145,145,145,1); cursor: pointer; transition: all 320ms ease-out; }
+ .tab:hover  { color: rgba(175,175,175,1); }
+ .tab.active { color: rgba( 30,100, 30,1); }
+ .tab.active:hover { color: rgba(70,150,70,1); }
+
+.ctn {
+ font-size: 10pt;
+ position: absolute;
+ top: 65px;
+ left: 45px;
+ overflow: scroll; }
+ .ctn::-webkit-scrollbar { display: none; }
+
+#-ctn-settings {
+ height: 88%;
+ min-height: 400px;
+ width: 88%;
+ border: 1px solid rgba(1,1,1,0);
+ border-radius: 4px;
+}
+
+#-ctn-save {
+ cursor: pointer;
+ position: absolute;
+ bottom: 15px;
+ right: 25px;
+ font-size: 11pt;
+ color: 145,145,145,1);
+ transition: all 320ms ease-out; }
+ #-ctn-save:hover { color: rgba(175,175,175,1); }
+
+canvas {
+ background: rgba(20,60,135,0.93);
+ position: absolute;
+ left: 50%;
+ top: 50%;
+ transform: translate(-50%,-50%);
+}

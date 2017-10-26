@@ -28,35 +28,70 @@ asm.data.put = function(opt,dataset) { // I'd prefer to split this out, but know
 }
 
 asm.data.tradeColours = {
- ceramics  : 'rgba( 105,  45, 180,1)',
- glass     : 'rgba( 150, 180, 230,1)',
- incense   : 'rgba( 205,  45, 100,1)',
- porcelain : 'rgba( 205, 245, 240,1)',
- silk      : 'rgba(  56,  45, 100,1)',
- tabac     : 'rgba(   1,   1,   1,1)',
+ armaments : 'rgba( 122, 121,  85,  1)',
+ ceramics  : 'rgba( 105,  45, 180,  1)',
+ cotton    : 'rgba( 191, 191, 185,  1)',
+ fruits    : 'rgba( 193, 188,  36,  1)',
+ fur       : 'rgba( 148, 167, 240,  1)',
+ gems      : 'rgba( 222, 222, 222,  1)',
+ glass     : 'rgba( 150, 180, 230,  1)',
+ grain     : 'rgba( 201, 155, 185,  1)',
+ granite   : 'rgba( 178, 155,  95,  1)',
+ hemp      : 'rgba(  64, 161,  78,  1)',
+ incense   : 'rgba( 205,  45, 100,  1)',
+ kawhe     : 'rgba( 115,  91,  75,  1)',
+ ore       : 'rgba( 120,  94, 104,  1)',
+ perfume   : 'rgba( 125,  25, 162,  1)',
+ porcelain : 'rgba( 205, 245, 240,  1)',
+ spices    : 'rgba( 242,  45, 157,  1)',
+ tea       : 'rgba(  90, 110, 160,  1)',
+ terracotta: 'rgba( 122,  84,  63,  1)',
+ sandstone : 'rgba( 130, 100,  85,  1)',
+ silk      : 'rgba(  56,  45, 100,  1)',
+ sovereigns: 'rgba( 200, 150,  50,  1)',
+ sugar     : 'rgba( 205, 193, 185,  1)',
+ tabac     : 'rgba(   1,   1,   1,  1)',
+ wine      : 'rgba( 140,  55,  60,  1)',
+ wool      : 'rgba(  90,  90,  80,  1)',
 }
-
+  
 asm.data.poi = {
- ['Shala-Khulia'] : { paletteR: 190, paletteG: 100, paletteB: 55, paletteA: 1,
+ ['Aalen']        : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  coordinates: [  53,  84], type: 'harbour',
+ },
+ ['Ashtan']        : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  coordinates: [  32, 338], type: 'harbour',
+ },
+ ['Eastern Shore'] : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  coordinates: [ 366, 180], type: 'harbour',
+ },
+ ['Mhaldor']       : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  coordinates: [-123, 288], type: 'harbour',
+ },
+ ['New Hope']      : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  coordinates: [ 282,  38], type: 'harbour',
+ },
+ ['Phereklos']     : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  coordinates: [  46, 486], type: 'harbour',
+ },
+ ['Polyargos']     : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  coordinates: [ -25,  61], type: 'harbour',
+ },
+ ['Rheodad']       : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  coordinates: [ -98, 412], type: 'harbour',
+ },
+ ['Sea Lion Cove'] : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  coordinates: [ 173,  14], type: 'harbour',
+ },
+ ['Shala-Khulia']  : { paletteR: 190, paletteG: 100, paletteB: 55, paletteA: 1,
+  coordinates: [   0,   0], type: 'harbour',
   trades: {
    incense: [
     { cost: 'glass',      lose: 3,    receive: 2, }, ],
   },
  },
- ['Polyargos']    : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
-  /*
-  trades: {
-   ceramics  : [
-    { cost: 'silk',       lose: 3,    receive: 2, }, 
-    { cost: 'porcelain',  lose: 4,    receive: 3, }, ], 
-   tabac     : [
-    { cost: 'silk',       lose: 3,    receive: 2, }, 
-    { cost: 'porcelain',  lose: 4,    receive: 3, }, ], 
-  },
-  */
- },
-
  ['Shastaan']      : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  coordinates: [ 364, 139], type: 'harbour',
   trades: {
    cotton    : [
     { cost: 'sovereigns', lose: 1000, receive: 1, }, ], 
@@ -70,7 +105,11 @@ asm.data.poi = {
     { cost: 'perfume',     lose: 3,   receive: 2, }, ], 
   },
  },
- ["Ta'surke"]      : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+ ['Targossas']     : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  coordinates: [ 376, 234], type: 'harbour',
+ },
+ ["Tasur'ke"]      : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  coordinates: [ 344, 356], type: 'harbour',
   trades: {
    granite   : [
     { cost: 'sandstone',  lose: 4,    receive: 3, }, ], 
@@ -80,7 +119,11 @@ asm.data.poi = {
     { cost: 'sovereigns', lose: 1000, receive: 1, }, ], 
   },
  },
+ ['Tenwat']       : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  coordinates: [ 215, 579], type: 'harbour',
+ },
  ['Thraasi']      : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  coordinates: [ -15, 204], type: 'harbour',
   trades: {
    armaments : [
     { cost: 'spices',     lose: 2,    receive: 1, }, ], 
@@ -92,14 +135,18 @@ asm.data.poi = {
     { cost: 'sovereigns', lose: 1000, receive: 1, }, ], 
   },
  },
+ ['Valho']       : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  coordinates: [ 299, 645], type: 'harbour',
+ },
  ['Zanzibaar']    : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  coordinates: [ 435,  59], type: 'harbour',
   trades: {
    fruits    : [
     { cost: 'ore',        lose: 4,    receive: 3, }, ], 
    incense   : [
-    { cost: 'armaments',  lose: 3,    receive: 2, }, ], 
+    { cost: 'armaments',  lose: 2,    receive: 3, }, ], 
    perfume   : [
-    { cost: 'gems',       lose: 2,    receive: 1, }, ], 
+    { cost: 'gems',       lose: 1,    receive: 2, }, ], 
    spices    : [
     { cost: 'armaments',  lose: 2,    receive: 1, }, ], 
    tea       : [
@@ -107,7 +154,6 @@ asm.data.poi = {
   },
  },
 }
-
 
 asm.data.topoj = {
    type: 'Topology',
