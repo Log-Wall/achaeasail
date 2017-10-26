@@ -3,12 +3,14 @@
  <head><title>Achaea Sailing Map 2.0</title>
   <link rel='icon' type='image/png' href='./core/resources/icon.png' />
   <link rel='stylesheet' href='./core/index.css' />
+  <link rel='stylesheet' href='./core/extlib/contextMenu.min.css' />
   <script src='./core/extlib/jquery-3.1.1.js'></script>
   <script src='./core/extlib/d3.v4.min.js'></script>
   <script src='./core/extlib/topojson.js'></script>
   <script src='./core/extlib/jquery.simulate.js'></script>
   <script src='./core/extlib/jquery.simulate.ext.js'></script>
   <script src='./core/extlib/jquery.simulate.drag-n-drop.js'></script>
+  <script src='./core/extlib/contextMenu.min.js'></script>
   <script src='./core/asm.js'></script>
   <script src='./core/asm.data.js'></script>
   <script src='./core/asm.data.mainland.js'></script>
@@ -84,7 +86,8 @@ $(window).on( 'load', function() {
   usr.prep()  // usage specific, delete if necessary
   fnc_settings()
   draw(context, d3.zoomIdentity, var_json)    // !important
-  $(document).on( 'mousemove', fnc_mousemove) // !important
+  $(document).on( 'mousemove',   fnc_mousemove)  // !important
+  $(document).on( 'contextmenu', fnc_mouserclk) // !important
   $('#coords').css('top', n.top).css('right', n.left)
 
   // Final Preparation, Move & Zoom
@@ -122,6 +125,12 @@ fnc_mousemove = function(e) {
   // change that spot into a range
   // test against my mouse
   asm.mousehover(r,e,f)
+}
+
+fnc_mouserclk = function(e) {
+  var f = document.getElementById('map').getBoundingClientRect()
+  var r = d3.zoomTransform(d3.select('canvas').node())
+  asm.mouserclk(r,e,f)
 }
 
 fnc_settings = function() {
@@ -208,3 +217,4 @@ fnc_tabdraw_calculator = function() {
 </script>
 <!-- <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
 <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/simpleicon" title="SimpleIcon">SimpleIcon</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+<!-- <div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->

@@ -6,6 +6,7 @@
 asm = typeof asm !== 'undefined' ? asm : {}
 
 asm.hover = asm.hover || false
+asm.hovrp = asm.hovrp || false
 
 asm.copy = function(obj) { var c; if (null == obj || 'object' != typeof obj) return obj; if (obj instanceof Date) { c = new Date(); c.setTime(obj.getTime()); return c }; if (obj instanceof Array) { c = []; for (var i=0;i<obj.length;i++) { c[i] = asm.copy(obj[i]) }; return c }; if (obj instanceof Object) { c = {}; for (var attr in obj) { if (obj.hasOwnProperty(attr)) { c[attr] = asm.copy(obj[attr]) } }; return c }; throw new Error('Unable to copy obj! Type not supported.'); }
 
@@ -36,6 +37,7 @@ asm.draw = function(context, transform, data) {
   asm.drawtype( context, path, data, '##bwn', 'rgba( 110,  85,  60, 0.75)', true )
   asm.drawtype( context, path, data, '..blk', 'rgba( 165,  15,  15, 0.35)', true )
   
+  // draw points of interest
   var points = []
   var t = asm.copy(asm.data.poi)
   for (var k in t) {
@@ -45,11 +47,11 @@ asm.draw = function(context, transform, data) {
   }
 }
 
-asm.drawpoint = function(context, transform, coordinates) {
+asm.drawpoint = function(context, transform, coordinates, fs, rad) {
   var c = context
   var p = coordinates
   var r = transform
-  var radius = opt_hoverRadius
+  var radius = rad || opt_hoverRadius
   
   p[0] *= opt_unitWidth
   p[1] *= opt_unitHeight
@@ -58,7 +60,7 @@ asm.drawpoint = function(context, transform, coordinates) {
   c.beginPath()
   c.moveTo( p[0], p[1])
   c.arc( p[0], p[1], radius, 0, 2 * Math.PI )
-  c.fillStyle = 'rgba( 190, 100,  55, 1)'
+  c.fillStyle = fs || 'rgba( 190, 100,  55, 1)'
   c.fill()
   c.closePath()
 }
@@ -121,8 +123,6 @@ asm.mousehover = function(transform,event,canvasdimension) {
   t[1] += f.top
   var hover = asm.testhover(e,t,rd)  // !important
   
-  var arbitrageW = 220
-  var arbitrageH = 80
   // This is predominantly UI stuff
   if (hover) { 
     // log('Hovering over '+points[i].coordinates[0]+', '+points[i].coordinates[1])
@@ -177,12 +177,70 @@ asm.mousehover = function(transform,event,canvasdimension) {
     $('canvas').css('cursor','pointer')
     
     b = true
+    // highlight on hover
+      var c = d3.select('canvas').node().getContext('2d')
+      var cd = points[i].coordinates
+      cd[1] *= -1
+      asm.hovrp = asm.copy(cd)
+      asm.drawpoint(c, r, cd, 'rgba(255,255,255,1)', rd - 1)
     break }
  }
  if (!b) { 
     asm.hover = false
+    // un-highlight
+      var c = d3.select('canvas').node().getContext('2d')
+      var cd = asm.hovrp
+      asm.drawpoint(c, r, cd, 'rgba( 190, 100,  55, 1)')
+      asm.hovrp = false
     $('canvas').css('cursor','default') }
  
+}
+
+asm.mouserclk = function(transform,event,canvasdimension) {
+ var e = event
+ e.preventDefault()
+ var r  = transform
+ var f  = canvasdimension
+
+ var uh = opt_unitHeight
+ var uw = opt_unitWidth
+ var rd = opt_hoverRadius
+ var points = []
+ var t = asm.copy(asm.data.poi)
+ for (var k in t) {
+  if (t[k].type == 'harbour') { points.push({ coordinates: t[k].coordinates, id: k}) }
+ }
+ var tc = copy(asm.data.tradeColours)
+
+ var b = false
+ for (var i=0;i<points.length;i++) {
+  var t = asm.copy(points[i].coordinates)
+  t[0] *= uw
+  t[1] *= uh
+  t[1] *= -1     // flip y-axis
+  t = r.apply(t)
+  t[0] += f.left
+  t[1] += f.top
+  var hover = asm.testhover(e,t,rd)  // !important
+
+  var menu = [{
+    name: 'Make Home Port',
+    img: './core/resources/target.png',
+    title: 'home port',
+    disable: true,
+    fun: function () {
+        alert('Change Home to this port.')
+    }
+  }];
+
+  if (hover) {
+    $('#tooltip').remove()
+    alert('Saving '+points[i].id+' ('+points[i].coordinates[0]+','+points[i].coordinates[1]+') as home port.')
+    var__cord = points[i].coordinates
+    usr.save()
+    break
+  }
+ }
 }
 
 asm.testhover = function(event,scaled,radius) {
