@@ -47,7 +47,7 @@ asm.data.tradeColours = {
  tea       : 'rgba(  90, 110, 160,  1)',
  terracotta: 'rgba( 122,  84,  63,  1)',
  sandstone : 'rgba( 130, 100,  85,  1)',
- silk      : 'rgba(  56,  45, 100,  1)',
+ silk      : 'rgba( 136, 185, 160,  1)',
  sovereigns: 'rgba( 200, 150,  50,  1)',
  sugar     : 'rgba( 205, 193, 185,  1)',
  tabac     : 'rgba(   1,   1,   1,  1)',
@@ -67,6 +67,17 @@ asm.data.poi = {
  },
  ['Mhaldor']       : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
   coordinates: [-123, 288], type: 'harbour',
+ },
+ ['Mysia']         : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  coordinates: [ 461, 112], type: 'harbour',
+  trades: {
+   ceramics    : [
+    { cost: 'silk',       lose: 3,    receive: 2, }, 
+    { cost: 'porcelain',  lose: 4,    receive: 3, }, ],
+   tabac       : [
+    { cost: 'silk',       lose: 3,    receive: 2, }, 
+    { cost: 'porcelain',  lose: 4,    receive: 3, }, ],
+  },
  },
  ['New Hope']      : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
   coordinates: [ 282,  38], type: 'harbour',
@@ -135,11 +146,14 @@ asm.data.poi = {
     { cost: 'sovereigns', lose: 1000, receive: 1, }, ], 
   },
  },
+ ['Ulangi']      : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  coordinates: [ 402, 163], type: 'harbour',
+ },
  ['Valho']       : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
   coordinates: [ 299, 645], type: 'harbour',
  },
  ['Zanzibaar']    : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
-  coordinates: [ 435,  59], type: 'harbour',
+  coordinates: [ 479,  49], type: 'harbour',
   trades: {
    fruits    : [
     { cost: 'ore',        lose: 4,    receive: 3, }, ], 
