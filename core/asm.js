@@ -39,6 +39,8 @@ asm.draw = function(context, transform, data) {
   asm.drawtype( context, path, data, '##ylw', 'rgba( 165, 206,  65, 0.35)', true )
   //asm.drawtype( context, path, data, '_____', 'rgba(   1,   1,   1, 0.65)' )
   asm.drawtype( context, path, data, '_____', 'rgba(   5,  20,  75, 0.65)', true)
+  asm.drawtype( context, path, data, '..wht', 'rgba( 200, 200, 215, 0.65)', true )
+  asm.drawtype( context, path, data, 'mmblk', 'rgba(  65,  65,  65, 0.75)', true )
   
   // draw points of interest
   var points = []
