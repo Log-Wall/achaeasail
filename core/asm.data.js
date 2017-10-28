@@ -50,7 +50,7 @@ asm.data.tradeColours = {
  silk      : 'rgba( 136, 185, 160,  1)',
  sovereigns: 'rgba( 200, 150,  50,  1)',
  sugar     : 'rgba( 205, 193, 185,  1)',
- tabac     : 'rgba(   1,   1,   1,  1)',
+ tabac     : 'rgba( 219,  28,  82,  1)',
  wine      : 'rgba( 140,  55,  60,  1)',
  wool      : 'rgba(  90,  90,  80,  1)',
 }
@@ -58,6 +58,15 @@ asm.data.tradeColours = {
 asm.data.poi = {
  ['Aalen']        : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
   coordinates: [  53,  84], type: 'harbour',
+ },
+ ['Ageiro']        : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  coordinates: [-177, 191], type: 'harbour',
+  trades: {
+   gems        : [
+    { cost: 'tabac',      lose: 2,    receive: 1, }, ],
+   silk        : [
+    { cost: 'tabac',      lose: 3,    receive: 2, }, ],
+  },
  },
  ['Ashtan']        : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
   coordinates: [  32, 338], type: 'harbour',
@@ -145,6 +154,9 @@ asm.data.poi = {
    ore       : [
     { cost: 'sovereigns', lose: 1000, receive: 1, }, ], 
   },
+ },
+ ['Tuar']       : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  coordinates: [-165, 91], type: 'harbour',
  },
  ['Ulangi']      : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
   coordinates: [ 402, 163], type: 'harbour',
