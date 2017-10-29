@@ -74,6 +74,9 @@ asm.data.poi = {
  ['Eastern Shore'] : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
   coordinates: [ 366, 180], type: 'harbour',
  },
+ ['Ilyrean']       : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  coordinates: [ 101, 777], type: 'harbour',
+ },
  ['Mhaldor']       : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
   coordinates: [-123, 288], type: 'harbour',
  },
@@ -123,6 +126,15 @@ asm.data.poi = {
     { cost: 'sovereigns', lose: 1000, receive: 1, }, ], 
    wine      : [
     { cost: 'perfume',     lose: 3,   receive: 2, }, ], 
+  },
+ },
+ ['Suliel']  : { paletteR: 190, paletteG: 100, paletteB: 55, paletteA: 1,
+  coordinates: [  34, 809], type: 'harbour',
+  trades: {
+   fur: [
+    { cost: 'wool',       lose: 1,    receive: 1, }, ],
+   incense: [
+    { cost: 'kawhe',      lose: 3,    receive: 2, }, ],
   },
  },
  ['Targossas']     : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
