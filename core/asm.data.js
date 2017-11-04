@@ -71,14 +71,38 @@ asm.data.poi = {
  ['Ashtan']        : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
   coordinates: [  32, 338], type: 'harbour',
  },
+ ['Colchis']       : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  coordinates: [ 354, 470], type: 'harbour',
+  trades: {
+   glass       : [
+    { cost: 'incense',    lose: 3,    receive: 2, }, ],
+   perfume     : [
+    { cost: 'incense',    lose: 3,    receive: 2, }, ],
+   silk        : [
+    { cost: 'marble',     lose: 3,    receive: 2, }, ],
+  },
+ },
  ['Eastern Shore'] : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
   coordinates: [ 366, 180], type: 'harbour',
  },
  ['Ilyrean']       : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
   coordinates: [ 101, 777], type: 'harbour',
  },
+ ['Lothos']        : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  coordinates: [ 273, 496], type: 'harbour',
+ },
  ['Mhaldor']       : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
   coordinates: [-123, 288], type: 'harbour',
+ },
+ ['Minos']       : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  coordinates: [ 270, 558], type: 'harbour',
+  trades: {
+   honey       : [
+    { cost: 'salt',       lose: 4,    receive: 3, }, ],
+   wine        : [
+    { cost: 'marble',     lose: 3,    receive: 2, }, 
+    { cost: 'tea',        lose: 3,    receive: 2, }, ],
+  },
  },
  ['Mysia']         : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
   coordinates: [ 461, 112], type: 'harbour',
@@ -172,6 +196,17 @@ asm.data.poi = {
  },
  ['Ulangi']      : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
   coordinates: [ 402, 163], type: 'harbour',
+ },
+ ['Umbrin']      : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+  coordinates: [ 365, 494], type: 'harbour',
+  trades: {
+   armaments : [
+    { cost: 'wine',       lose: 3,    receive: 2, }, ], 
+   kawhe     : [
+    { cost: 'wine',       lose: 3,    receive: 2, }, ], 
+   porcelain     : [
+    { cost: 'ceramics',   lose: 3,    receive: 1, }, ], 
+  },
  },
  ['Valho']       : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
   coordinates: [ 299, 645], type: 'harbour',
