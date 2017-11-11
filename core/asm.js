@@ -30,15 +30,14 @@ asm.draw = function(context, transform, data) {
   asm.drawtype( context, path, data, 'nnnbr', 'rgba( 165, 135, 100, 0.75)', true )
   asm.drawtype( context, path, data, '___br', 'rgba( 200, 180, 145, 0.65)', true )
   asm.drawtype( context, path, data, '...wt', 'rgba( 200, 200, 215, 0.65)', true )
-  asm.drawtype( context, path, data, 'hshbl', 'rgba( 165, 185, 215, 0.35)', true )
+  asm.drawtype( context, path, data, 'hshbl', 'rgba( 165, 185, 195, 0.15)', true )
   asm.drawtype( context, path, data, 'WWbwn', 'rgba(  95,  45,  45, 0.55)', true )
   asm.drawtype( context, path, data, 'YYred', 'rgba( 215,  25,   5, 0.25)', true )
   asm.drawtype( context, path, data, '__blk', 'rgba(  15,  15,  15, 0.75)', true )
   asm.drawtype( context, path, data, '##bwn', 'rgba( 110,  85,  60, 0.75)', true )
   asm.drawtype( context, path, data, '..blk', 'rgba( 165,  15,  15, 0.35)', true )
   asm.drawtype( context, path, data, '##ylw', 'rgba( 165, 206,  65, 0.35)', true )
-  //asm.drawtype( context, path, data, '_____', 'rgba(   1,   1,   1, 0.65)' )
-  asm.drawtype( context, path, data, '_____', 'rgba(   5,  20,  75, 0.65)', true)
+  asm.drawtype( context, path, data, '_____', 'rgba(   5,  20,  75, 0.65)', true )
   asm.drawtype( context, path, data, '..wht', 'rgba( 200, 200, 215, 0.65)', true )
   asm.drawtype( context, path, data, 'mmblk', 'rgba(  65,  65,  65, 0.75)', true )
   
@@ -279,7 +278,7 @@ asm.grid = function(context,zoom) {
     case (r.k < 0.15): fr =  50; break;
     case (r.k < 0.35): fr =  20; break;
     case (r.k < 0.80): fr =  10; break;
-    case (r.k < 2.00): fr =   5; break;
+    case (r.k < 1.40): fr =   5; break;
     default: fr = 1; break; }
 
   var belowMe = Math.floor(uh / 2)

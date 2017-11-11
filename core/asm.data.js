@@ -60,7 +60,7 @@ asm.data.poi = {
   coordinates: [  53,  84], type: 'harbour',
  },
  ['Ageiro']        : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
-  coordinates: [-177, 191], type: 'harbour',
+  coordinates: [-187, 191], type: 'harbour',
   trades: {
    gems        : [
     { cost: 'tabac',      lose: 2,    receive: 1, }, ],
@@ -192,7 +192,7 @@ asm.data.poi = {
   },
  },
  ['Tuar']       : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
-  coordinates: [-165, 91], type: 'harbour',
+  coordinates: [-175, 91], type: 'harbour',
  },
  ['Ulangi']      : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
   coordinates: [ 402, 163], type: 'harbour',
