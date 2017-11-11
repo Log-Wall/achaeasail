@@ -7,6 +7,8 @@ asm = typeof asm !== 'undefined' ? asm : {}
 
 asm.hover = asm.hover || false
 asm.hovrp = asm.hovrp || false
+asm.hovrc = asm.hovrc || ''
+asm.hovrn = asm.hovrn || ''
 
 asm.copy = function(obj) { var c; if (null == obj || 'object' != typeof obj) return obj; if (obj instanceof Date) { c = new Date(); c.setTime(obj.getTime()); return c }; if (obj instanceof Array) { c = []; for (var i=0;i<obj.length;i++) { c[i] = asm.copy(obj[i]) }; return c }; if (obj instanceof Object) { c = {}; for (var attr in obj) { if (obj.hasOwnProperty(attr)) { c[attr] = asm.copy(obj[attr]) } }; return c }; throw new Error('Unable to copy obj! Type not supported.'); }
 
@@ -47,7 +49,12 @@ asm.draw = function(context, transform, data) {
   for (var k in t) {
     var c = t[k].coordinates
     c[1] *= -1
-    if (t[k].type == 'harbour') { asm.drawpoint(context, r, c) }
+    if (t[k].type == 'harbour') { 
+      var R = t[k].paletteR || 190
+      var G = t[k].paletteG || 100
+      var B = t[k].paletteB || 55
+      var fs = 'rgba( '+R+', '+G+', '+B+', 1)'
+      asm.drawpoint(context, r, c, fs) }
   }
 }
 
@@ -114,7 +121,7 @@ asm.mousehover = function(transform,event,canvasdimension) {
  for (var k in t) {
   if (t[k].type == 'harbour') { points.push({ coordinates: t[k].coordinates, id: k}) }
  }
- var tc = copy(asm.data.tradeColours)
+ var tc = asm.copy(asm.data.tradeColours)
 
  var b = false
  for (var i=0;i<points.length;i++) {
@@ -186,7 +193,9 @@ asm.mousehover = function(transform,event,canvasdimension) {
       var cd = points[i].coordinates
       cd[1] *= -1
       asm.hovrp = asm.copy(cd)
-      asm.drawpoint(c, r, cd, 'rgba(255,255,255,1)', rd - 1)
+      asm.hovrn = points[i].id
+      // asm.hovrc = 'rgba( 190, 100,  55, 1)'
+      asm.drawpoint(c, r, cd, 'rgba(210,210,210,0.37)', rd - 1)
     break }
  }
  if (!b) { 
@@ -194,8 +203,19 @@ asm.mousehover = function(transform,event,canvasdimension) {
     // un-highlight
       var c = d3.select('canvas').node().getContext('2d')
       var cd = asm.hovrp
-      asm.drawpoint(c, r, cd, 'rgba( 190, 100,  55, 1)')
+      var fs = 'rgba( 190, 100,  55, 1)'
+      if (asm.data.poi[asm.hovrn]) {
+        var x = asm.data.poi[asm.hovrn]
+        var R = x.paletteR || 190
+        var G = x.paletteG || 100
+        var B = x.paletteB || 55
+            fs = 'rgba( '+R+', '+G+', '+B+', 1)'
+      }
+      
+      asm.drawpoint(c, r, cd, fs)
       asm.hovrp = false
+      asm.hovrc = ''
+      asm.hovrn = ''
     $('canvas').css('cursor','default') }
  
 }

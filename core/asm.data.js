@@ -59,7 +59,7 @@ asm.data.poi = {
  ['Aalen']        : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
   coordinates: [  53,  84], type: 'harbour',
  },
- ['Ageiro']        : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+ ['Ageiro']        : { paletteR: 200, paletteG: 185, paletteB: 245, paletteA: 1,
   coordinates: [-187, 191], type: 'harbour',
   trades: {
    gems        : [
@@ -71,7 +71,7 @@ asm.data.poi = {
  ['Ashtan']        : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
   coordinates: [  32, 338], type: 'harbour',
  },
- ['Colchis']       : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+ ['Colchis']       : { paletteR: 235, paletteG:  65, paletteB: 180, paletteA: 1,
   coordinates: [ 354, 470], type: 'harbour',
   trades: {
    glass       : [
@@ -94,7 +94,7 @@ asm.data.poi = {
  ['Mhaldor']       : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
   coordinates: [-123, 288], type: 'harbour',
  },
- ['Minos']       : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+ ['Minos']       : { paletteR: 110, paletteG: 215, paletteB: 215, paletteA: 1,
   coordinates: [ 270, 558], type: 'harbour',
   trades: {
    honey       : [
@@ -104,7 +104,7 @@ asm.data.poi = {
     { cost: 'tea',        lose: 3,    receive: 2, }, ],
   },
  },
- ['Mysia']         : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+ ['Mysia']         : { paletteR:  66, paletteG: 245, paletteB: 155, paletteA: 1,
   coordinates: [ 461, 112], type: 'harbour',
   trades: {
    ceramics    : [
@@ -137,7 +137,7 @@ asm.data.poi = {
     { cost: 'glass',      lose: 3,    receive: 2, }, ],
   },
  },
- ['Shastaan']      : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+ ['Shastaan']      : { paletteR: 175, paletteG:  65, paletteB: 235, paletteA: 1,
   coordinates: [ 364, 139], type: 'harbour',
   trades: {
    cotton    : [
@@ -152,7 +152,7 @@ asm.data.poi = {
     { cost: 'perfume',     lose: 3,   receive: 2, }, ], 
   },
  },
- ['Suliel']  : { paletteR: 190, paletteG: 100, paletteB: 55, paletteA: 1,
+ ['Suliel']  : { paletteR: 190, paletteG: 245, paletteB: 195, paletteA: 1,
   coordinates: [  34, 809], type: 'harbour',
   trades: {
    fur: [
@@ -164,7 +164,7 @@ asm.data.poi = {
  ['Targossas']     : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
   coordinates: [ 376, 234], type: 'harbour',
  },
- ["Tasur'ke"]      : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+ ["Tasur'ke"]      : { paletteR: 245, paletteG: 105, paletteB: 85, paletteA: 1,
   coordinates: [ 344, 356], type: 'harbour',
   trades: {
    granite   : [
@@ -178,7 +178,7 @@ asm.data.poi = {
  ['Tenwat']       : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
   coordinates: [ 215, 579], type: 'harbour',
  },
- ['Thraasi']      : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+ ['Thraasi']      : { paletteR:  75, paletteG: 250, paletteB: 195, paletteA: 1,
   coordinates: [ -15, 204], type: 'harbour',
   trades: {
    armaments : [
@@ -197,7 +197,7 @@ asm.data.poi = {
  ['Ulangi']      : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
   coordinates: [ 402, 163], type: 'harbour',
  },
- ['Umbrin']      : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+ ['Umbrin']      : { paletteR: 245, paletteG: 220, paletteB: 135, paletteA: 1,
   coordinates: [ 365, 494], type: 'harbour',
   trades: {
    armaments : [
@@ -211,7 +211,7 @@ asm.data.poi = {
  ['Valho']       : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
   coordinates: [ 299, 645], type: 'harbour',
  },
- ['Zanzibaar']    : { paletteR: 145, paletteG:  60, paletteB: 55, paletteA: 1,
+ ['Zanzibaar']    : { paletteR: 225, paletteG: 190, paletteB: 55, paletteA: 1,
   coordinates: [ 479,  49], type: 'harbour',
   trades: {
    fruits    : [
